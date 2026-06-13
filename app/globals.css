@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream font-sans text-navy-900 antialiased;
+  }
+
+  /* Los titulares usan la fuente display (Playfair Display). */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  /* Contenedor centrado reutilizable con padding lateral responsivo. */
+  .container-px {
+    @apply mx-auto w-full max-w-container px-5 sm:px-8;
+  }
+
+  /* Botones de marca. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2;
+  }
+  .btn-gold {
+    @apply bg-gold-500 text-navy-900 hover:bg-gold-400 hover:shadow-soft;
+  }
+  .btn-navy {
+    @apply bg-navy-800 text-white hover:bg-navy-700;
+  }
+  .btn-outline {
+    @apply border border-navy-200 bg-transparent text-navy-800 hover:border-navy-800 hover:bg-navy-800 hover:text-white;
+  }
+  .btn-outline-light {
+    @apply border border-white/40 bg-white/5 text-white backdrop-blur-sm hover:bg-white hover:text-navy-900;
+  }
+}
+
+@layer utilities {
+  /* Equilibra los saltos de línea en titulares grandes. */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
