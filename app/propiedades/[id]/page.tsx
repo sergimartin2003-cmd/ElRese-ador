@@ -14,6 +14,7 @@ import {
   Phone,
   MessageCircle,
   ChevronRight,
+  ArrowUpRight,
 } from "lucide-react";
 import PropertyGallery from "@/components/propiedades/PropertyGallery";
 import ContactForm from "@/components/ContactForm";
@@ -25,6 +26,7 @@ import {
   propertyTypeLabels,
 } from "@/lib/format";
 import { siteConfig, buildWhatsAppLink } from "@/lib/site";
+import { buildAffiliateUrl } from "@/lib/affiliate";
 
 // Genera las rutas estáticas para cada propiedad en build.
 export function generateStaticParams() {
@@ -70,6 +72,7 @@ export default function PropertyDetailPage({
     description,
     features,
     images,
+    tekceUrl,
   } = property;
 
   // Especificaciones principales (con iconos).
@@ -212,6 +215,18 @@ export default function PropertyDetailPage({
                     className="btn btn-outline w-full"
                   >
                     <Phone className="h-4 w-4" /> {siteConfig.contact.phone}
+                  </a>
+                  {/* Enlace de afiliado: ficha concreta si hay tekceUrl, si no el catálogo */}
+                  <a
+                    href={buildAffiliateUrl(tekceUrl)}
+                    target="_blank"
+                    rel="sponsored noopener noreferrer"
+                    className="btn btn-outline w-full"
+                  >
+                    {tekceUrl
+                      ? "Ver ficha y disponibilidad"
+                      : "Explorar catálogo completo"}
+                    <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </div>
                 <div className="my-6 h-px bg-navy-900/5" />

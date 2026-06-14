@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import PropertiesView from "@/components/propiedades/PropertiesView";
+import AffiliateCatalogCTA from "@/components/AffiliateCatalogCTA";
 import { properties, getAllRegions } from "@/data/properties";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function PropiedadesPage() {
       <section className="bg-ivory">
         <PropertiesView properties={properties} regions={getAllRegions()} />
       </section>
+      <AffiliateCatalogCTA />
     </>
   );
 }

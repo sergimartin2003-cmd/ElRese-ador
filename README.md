@@ -38,6 +38,7 @@ components/
   SectionTitle.tsx       # Encabezado de sección reutilizable
   PageHeader.tsx         # Cabecera reutilizable de páginas internas
   ContactForm.tsx        # Formulario de contacto reutilizable
+  AffiliateCatalogCTA.tsx # CTA al catálogo internacional (enlace de afiliado)
   Logo.tsx               # Logotipo de la marca
   FadeIn.tsx             # Wrapper de animación (fade + subida) con Framer Motion
   WhatsAppButton.tsx     # Botón flotante de WhatsApp (toda la web)
@@ -48,6 +49,7 @@ data/
   properties.ts          # Interfaz `Property` + catálogo de ejemplo (mock data)
 lib/
   site.ts                # ⭐ Configuración central de marca y contacto
+  affiliate.ts           # ⭐ Enlaces de afiliado a TEKCE (código + helper)
   format.ts              # Helpers de formato (precios, m², etiquetas)
   motion.ts              # Curva de easing compartida
 ```
@@ -63,6 +65,23 @@ lib/
 > **placeholders**: sustitúyelos por los reales en `lib/site.ts`. Las imágenes
 > son placeholders de Unsplash.
 
+## Integración con TEKCE (afiliado)
+
+El catálogo completo (miles de unidades) vive en el portal de TEKCE. Esta web
+es 100 % de marca **Espinosa Luxury** y envía tráfico al portal mediante
+**enlaces de afiliado** (programa MyTEKCE) para generar comisiones por referido:
+
+- CTA "Ver catálogo completo" en `/propiedades` (`AffiliateCatalogCTA`).
+- CTA de afiliado en cada ficha (`/propiedades/[id]`); si rellenas `tekceUrl`
+  en la propiedad, enlaza a esa unidad concreta.
+
+> ⚠️ Configura tu integración en `lib/affiliate.ts`: `code` (tu código de
+> afiliado), `catalogUrl` (buscador del portal) y `param` (nombre exacto del
+> parámetro). **Confirma el formato del enlace en tu panel MyTEKCE** — cada
+> afiliado recibe un enlace único. No existe API/feed público de TEKCE: para
+> alojar las fichas de forma nativa necesitarías un feed con credenciales de
+> partner.
+
 ## Estado
 
 - [x] Configuración del proyecto, layout global y sistema de diseño
@@ -70,3 +89,4 @@ lib/
 - [x] Listado de propiedades (`/propiedades`) con filtros
 - [x] Detalle de propiedad (`/propiedades/[id]`)
 - [x] Contacto (`/contacto`)
+- [x] Integración TEKCE por enlaces de afiliado

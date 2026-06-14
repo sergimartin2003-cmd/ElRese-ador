@@ -38,6 +38,12 @@ export interface Property {
   images: string[];
   /** Si aparece en la home como propiedad destacada. */
   featured: boolean;
+  /**
+   * URL de la ficha equivalente en el portal del partner (afiliado). Si la
+   * rellenas, el CTA de afiliado de la ficha enlazará a esa unidad concreta
+   * con tu código; si la dejas vacía, enlazará al catálogo general.
+   */
+  tekceUrl?: string;
 }
 
 // Helper para construir URLs de Unsplash optimizadas (placeholders).
