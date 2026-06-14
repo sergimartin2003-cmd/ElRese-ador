@@ -29,16 +29,21 @@ app/                     # App Router
   layout.tsx             # Layout global: fuentes, Navbar, Footer, botón WhatsApp
   page.tsx               # Home
   globals.css            # Estilos base + clases de botones de marca
+  propiedades/           # Listado (page.tsx) y detalle ([id]/page.tsx)
+  contacto/              # Página de contacto
 components/
   Navbar.tsx             # Navbar fija con blur al hacer scroll
   Footer.tsx             # Footer completo (contacto, redes, legal)
   PropertyCard.tsx       # Tarjeta de propiedad reutilizable
   SectionTitle.tsx       # Encabezado de sección reutilizable
+  PageHeader.tsx         # Cabecera reutilizable de páginas internas
+  ContactForm.tsx        # Formulario de contacto reutilizable
   Logo.tsx               # Logotipo de la marca
   FadeIn.tsx             # Wrapper de animación (fade + subida) con Framer Motion
   WhatsAppButton.tsx     # Botón flotante de WhatsApp (toda la web)
   icons/SocialIcons.tsx  # Iconos de marcas sociales (SVG en línea)
   home/                  # Secciones de la Home (Hero, Experience, About, ...)
+  propiedades/           # FilterBar, PropertiesView y PropertyGallery
 data/
   properties.ts          # Interfaz `Property` + catálogo de ejemplo (mock data)
 lib/
@@ -62,6 +67,6 @@ lib/
 
 - [x] Configuración del proyecto, layout global y sistema de diseño
 - [x] **Home** (Hero, Experiencia, Sobre Nosotros, Destacadas, Testimonios, CTA)
-- [ ] Listado de propiedades (`/propiedades`)
-- [ ] Detalle de propiedad (`/propiedades/[id]`)
-- [ ] Contacto (`/contacto`)
+- [x] Listado de propiedades (`/propiedades`) con filtros
+- [x] Detalle de propiedad (`/propiedades/[id]`)
+- [x] Contacto (`/contacto`)
