@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Reseñador — Automatiza tu reputación online</title>
+<meta name="description" content="El Reseñador automatiza la solicitud de reseñas en Google Maps, filtra el feedback negativo en privado y dispara tu reputación online en tiempo récord.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ===================== Design tokens ===================== */
+  :root{
+    --bg-dark: #111111;
+    --bg-dark-2: #1a1a1a;
+    --surface-dark: rgba(255,255,255,0.06);
+    --border-dark: rgba(255,255,255,0.1);
+
+    --bg-cloud: #f5f5f7;
+    --bg-white: #ffffff;
+    --border-light: rgba(17,17,17,0.08);
+
+    --text-primary: #f5f5f7;
+    --text-secondary: rgba(245,245,247,0.72);
+    --ink: #111114;
+    --ink-secondary: #6e6e76;
+
+    --accent-blue: #007aff;
+    --accent-purple: #5856d6;
+    --accent-gradient: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    --accent-gradient-soft: linear-gradient(135deg, rgba(0,122,255,0.14), rgba(88,86,214,0.14));
+
+    --success: #34c759;
+
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-pill: 999px;
+
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+    --space-5: 48px;
+    --space-6: 64px;
+    --space-7: 96px;
+    --space-8: 128px;
+
+    --container: 1180px;
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --shadow-soft: 0 1px 2px rgba(17,17,17,0.04), 0 12px 32px -12px rgba(17,17,17,0.14);
+    --shadow-strong: 0 20px 60px -20px rgba(17,17,17,0.35);
+  }
+
+  *, *::before, *::after{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  html, body{ margin:0; padding:0; }
+  body{
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-white);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color: inherit; text-decoration: none; }
+  ul{ list-style: none; margin:0; padding:0; }
+  button{ font-family: inherit; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *, *::before, *::after{
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  .container{ width:100%; max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+  @media (max-width: 640px){ .container{ padding: 0 20px; } }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+    text-transform: uppercase; color: var(--accent-blue);
+  }
+
+  /* ===================== Reveal on scroll ===================== */
+  .reveal{ opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); will-change: transform, opacity; }
+  .reveal.in-view{ opacity: 1; transform: translateY(0); }
+  .reveal-delay-1{ transition-delay: 0.08s; }
+  .reveal-delay-2{ transition-delay: 0.16s; }
+  .reveal-delay-3{ transition-delay: 0.24s; }
+  .reveal-delay-4{ transition-delay: 0.32s; }
+
+  /* ===================== Buttons ===================== */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    height: 52px; padding: 0 28px; border-radius: var(--radius-pill);
+    font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+    border: 1px solid transparent; cursor:pointer;
+    transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-spring), background 0.25s ease, border-color 0.25s ease;
+    white-space: nowrap;
+  }
+  .btn:active{ transform: scale(0.97); }
+  .btn-primary{
+    background: var(--accent-gradient);
+    color: #fff;
+    box-shadow: 0 8px 24px -8px rgba(0,122,255,0.55);
+  }
+  .btn-primary:hover{ transform: scale(1.02) translateY(-1px); box-shadow: 0 14px 32px -10px rgba(88,86,214,0.6); }
+  .btn-ghost-dark{
+    background: rgba(255,255,255,0.06);
+    color: var(--text-primary);
+    border-color: rgba(255,255,255,0.16);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .btn-ghost-dark:hover{ transform: scale(1.02); background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); }
+  .btn-outline{
+    background: transparent; color: var(--ink); border-color: var(--border-light);
+  }
+  .btn-outline:hover{ transform: scale(1.02); border-color: var(--ink); }
+  .btn-sm{ height: 44px; padding: 0 20px; font-size: 14px; }
+  .btn-block{ width:100%; }
+
+  /* ===================== Navbar (glassmorphism) ===================== */
+  .navbar{
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(17,17,17,0.55);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border-dark);
+  }
+  .navbar-inner{ display:flex; align-items:center; justify-content:space-between; height: 72px; }
+  .navbar-logo{ display:flex; align-items:center; gap:10px; font-weight: 700; font-size: 17px; color: var(--text-primary); letter-spacing: -0.01em; }
+  .navbar-logo-mark{
+    width: 30px; height: 30px; border-radius: 9px;
+    background: var(--accent-gradient);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 4px 14px -4px rgba(0,122,255,0.6);
+  }
+  .navbar-logo-mark svg{ width:16px; height:16px; }
+  .navbar-links{ display:flex; align-items:center; gap: 4px; }
+  .navbar-link{
+    padding: 10px 16px; border-radius: var(--radius-pill);
+    font-size: 14.5px; font-weight: 500; color: var(--text-secondary);
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+  .navbar-link:hover{ color: var(--text-primary); background: rgba(255,255,255,0.08); }
+  .navbar-actions{ display:flex; align-items:center; gap: 12px; }
+  .navbar-toggle{
+    display:none; width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,255,255,0.08); border:1px solid var(--border-dark);
+    color:#fff; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .navbar-toggle svg{ width:18px; height:18px; }
+  .navbar-mobile-panel{
+    display:none; flex-direction:column; gap: 4px;
+    padding: 8px 0 20px;
+    border-top: 1px solid var(--border-dark);
+  }
+  .navbar-mobile-panel .navbar-link{ width:100%; }
+  .navbar.nav-open .navbar-mobile-panel{ display:flex; }
+
+  @media (max-width: 860px){
+    .navbar-links{ display:none; }
+    .navbar-actions .btn-primary{ display:none; }
+    .navbar-toggle{ display:flex; }
+  }
+
+  /* ===================== Hero ===================== */
+  .hero{
+    position: relative;
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, #22222a 0%, var(--bg-dark) 55%);
+    color: var(--text-primary);
+    padding: var(--space-8) 0 var(--space-7);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-orb{
+    position:absolute; z-index:-1; border-radius:50%;
+    width: 620px; height: 620px;
+    top: -220px; left: 50%; transform: translateX(-50%);
+    background: conic-gradient(from 180deg, #007aff, #5856d6, #af52de, #007aff);
+    filter: blur(120px); opacity: 0.55;
+    animation: orb-float 12s ease-in-out infinite;
+  }
+  @keyframes orb-float{
+    0%, 100%{ transform: translateX(-50%) translateY(0) scale(1); }
+    50%{ transform: translateX(-46%) translateY(30px) scale(1.06); }
+  }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.05fr 0.95fr; gap: var(--space-6);
+    align-items:center;
+  }
+  .hero-copy h1{
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+    line-height: 1.08; letter-spacing: -0.03em; font-weight: 800;
+    margin: 0 0 var(--space-3);
+  }
+  .hero-copy .grad-text{
+    background: var(--accent-gradient);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-copy p{
+    font-size: clamp(1.02rem, 1.4vw, 1.2rem); line-height: 1.6;
+    color: var(--text-secondary); max-width: 46ch; margin: 0 0 var(--space-4);
+  }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap: 14px; margin-bottom: var(--space-4); }
+  .hero-proof{ display:flex; align-items:center; gap: 12px; color: var(--text-secondary); font-size: 14px; }
+  .hero-proof .avatars{ display:flex; }
+  .hero-proof .avatars span{
+    width: 30px; height:30px; border-radius: 50%; border: 2px solid var(--bg-dark);
+    margin-left: -8px; background: var(--accent-gradient);
+    display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff;
+  }
+  .hero-proof .avatars span:first-child{ margin-left:0; }
+
+  /* Hero visual: phone mockup + google maps review widget */
+  .hero-visual{ position:relative; display:flex; justify-content:center; }
+  .phone{
+    width: 260px; height: 540px; border-radius: 46px;
+    background: linear-gradient(160deg, #2a2a2f, #0f0f12);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: var(--shadow-strong), inset 0 0 0 6px rgba(0,0,0,0.4);
+    padding: 14px; position:relative;
+    animation: phone-float 6s ease-in-out infinite;
+  }
+  @keyframes phone-float{
+    0%, 100%{ transform: translateY(0) rotate(-2deg); }
+    50%{ transform: translateY(-14px) rotate(0deg); }
+  }
+  .phone-notch{
+    position:absolute; top: 14px; left:50%; transform: translateX(-50%);
+    width: 90px; height: 22px; background: #0f0f12; border-radius: 999px; z-index:2;
+  }
+  .phone-screen{
+    width:100%; height:100%; border-radius: 34px; overflow:hidden;
+    background: linear-gradient(180deg, #f5f5f7, #ffffff);
+    display:flex; flex-direction:column; padding: 34px 14px 14px;
+    gap: 10px;
+  }
+  .phone-app-title{ font-size:12px; font-weight:700; color: var(--ink); text-align:center; margin-bottom:4px; }
+  .phone-card{
+    background:#fff; border-radius: 16px; padding: 12px; box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-light);
+  }
+  .phone-card .row{ display:flex; align-items:center; justify-content:space-between; }
+  .phone-stars{ color:#ffb400; font-size: 14px; letter-spacing: 2px; }
+  .phone-score{ font-weight:800; font-size: 22px; color: var(--ink); }
+  .phone-sub{ font-size:11px; color: var(--ink-secondary); margin-top:2px; }
+  .phone-bar-track{ height:6px; border-radius:999px; background:#eceef1; margin-top:10px; overflow:hidden; }
+  .phone-bar-fill{ height:100%; border-radius:999px; background: var(--accent-gradient); width: 96%; }
+  .phone-feed-item{ display:flex; gap:8px; align-items:flex-start; }
+  .phone-feed-avatar{
+    width:26px; height:26px; border-radius:50%; flex-shrink:0;
+    background: var(--accent-gradient); display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:10px; font-weight:700;
+  }
+  .phone-feed-text{ font-size:11px; color: var(--ink); line-height:1.4; }
+  .phone-feed-text b{ font-weight:700; }
+
+  .floating-toast{
+    position:absolute; display:flex; align-items:center; gap:10px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: var(--radius-md); padding: 10px 16px;
+    box-shadow: var(--shadow-strong);
+    font-size: 12.5px; font-weight: 600; color: var(--ink);
+  }
+  .floating-toast.toast-top{ top: 6%; right: -6%; animation: toast-float-1 5s ease-in-out infinite; }
+  .floating-toast.toast-bottom{ bottom: 8%; left: -10%; animation: toast-float-2 5.4s ease-in-out infinite; }
+  .floating-toast .toast-star{ color:#ffb400; font-size:15px; }
+  @keyframes toast-float-1{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
+  @keyframes toast-float-2{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(10px); } }
+
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns: 1fr; text-align:center; }
+    .hero-copy p{ margin-left:auto; margin-right:auto; }
+    .hero-actions{ justify-content:center; }
+    .hero-proof{ justify-content:center; }
+    .hero-visual{ margin-top: var(--space-4); }
+    .floating-toast.toast-top{ right: 0; }
+    .floating-toast.toast-bottom{ left: 0; }
+  }
+
+  /* ===================== Trust bar ===================== */
+  .trustbar{ background: var(--bg-cloud); padding: var(--space-4) 0; border-bottom: 1px solid var(--border-light); }
+  .trustbar-label{ text-align:center; font-size:13px; font-weight:600; color: var(--ink-secondary); letter-spacing:0.03em; text-transform:uppercase; margin-bottom: var(--space-3); }
+  .trust-logos{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap: var(--space-5); }
+  .trust-logo{
+    font-weight: 700; font-size: 17px; color: var(--ink); opacity: 0.42; letter-spacing: -0.01em;
+    filter: grayscale(1); transition: opacity 0.3s ease, filter 0.3s ease;
+    display:flex; align-items:center; gap:8px;
+  }
+  .trust-logo:hover{ opacity: 0.9; filter:grayscale(0); }
+  .trust-logo .dot{ width:7px; height:7px; border-radius:50%; background: var(--accent-gradient); }
+
+  /* ===================== Section shell ===================== */
+  section{ padding: var(--space-7) 0; }
+  .section-head{ max-width: 640px; margin: 0 auto var(--space-6); text-align:center; }
+  .section-head h2{ font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing:-0.02em; margin: var(--space-2) 0 var(--space-2); font-weight: 800; }
+  .section-head p{ color: var(--ink-secondary); font-size: 1.05rem; line-height:1.6; }
+  .section-cloud{ background: var(--bg-cloud); }
+
+  /* ===================== How it works ===================== */
+  .steps{ display:grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); counter-reset: step; }
+  .step-card{
+    background:#fff; border-radius: var(--radius-lg); padding: var(--space-4);
+    border: 1px solid var(--border-light); box-shadow: var(--shadow-soft);
+    position:relative; transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+  }
+  .step-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-strong); }
+  .step-num{
+    width:44px; height:44px; border-radius:14px; margin-bottom: var(--space-3);
+    background: var(--accent-gradient-soft); color: var(--accent-blue);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px;
+  }
+  .step-card h3{ font-size:1.15rem; margin: 0 0 8px; letter-spacing:-0.01em; }
+  .step-card p{ color: var(--ink-secondary); font-size: 0.95rem; line-height:1.6; margin:0; }
+  .step-arrow{ display:none; }
+  @media (max-width: 900px){ .steps{ grid-template-columns: 1fr; } }
+
+  /* ===================== Features grid 2x2 ===================== */
+  .features-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .feature-card{
+    position:relative; overflow:hidden;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+  }
+  .feature-card:hover{ transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-strong); }
+  .feature-icon{
+    width: 52px; height:52px; border-radius: 16px; margin-bottom: var(--space-3);
+    background: var(--accent-gradient); display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 10px 26px -10px rgba(88,86,214,0.55);
+  }
+  .feature-icon svg{ width:26px; height:26px; color:#fff; }
+  .feature-card h3{ font-size: 1.2rem; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .feature-card p{ color: var(--ink-secondary); font-size: 0.96rem; line-height: 1.65; margin:0; }
+  @media (max-width: 760px){ .features-grid{ grid-template-columns: 1fr; } }
+
+  /* ===================== Pricing ===================== */
+  .pricing-note{
+    display:inline-flex; align-items:center; gap:6px;
+    background: var(--accent-gradient-soft); color: var(--accent-purple);
+    font-size: 12.5px; font-weight: 700; padding: 6px 14px; border-radius: var(--radius-pill);
+    margin-top: 8px;
+  }
+  .pricing-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); align-items:stretch; }
+  .price-card{
+    background:#fff; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+    padding: var(--space-4); display:flex; flex-direction:column; gap: var(--space-3);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+  }
+  .price-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-strong); }
+  .price-card.is-featured{
+    background: var(--bg-dark); color: var(--text-primary);
+    border: 1px solid transparent;
+    background-image: linear-gradient(var(--bg-dark), var(--bg-dark)), var(--accent-gradient);
+    background-origin: border-box; background-clip: padding-box, border-box;
+    transform: scale(1.03);
+    box-shadow: 0 30px 60px -20px rgba(88,86,214,0.5);
+  }
+  .price-card.is-featured:hover{ transform: scale(1.03) translateY(-6px); }
+  .price-badge{
+    align-self:flex-start; font-size: 12px; font-weight:700; letter-spacing:0.02em;
+    padding: 4px 12px; border-radius: var(--radius-pill);
+    background: var(--accent-gradient); color:#fff;
+  }
+  .price-plan-name{ font-size: 1.1rem; font-weight:700; letter-spacing:-0.01em; }
+  .price-value{ display:flex; align-items:baseline; gap:6px; }
+  .price-value .amount{ font-size: 2.6rem; font-weight:800; letter-spacing:-0.03em; }
+  .price-value .period{ color: var(--ink-secondary); font-size: 0.95rem; font-weight:500; }
+  .price-card.is-featured .price-value .period{ color: var(--text-secondary); }
+  .price-card.is-featured .price-plan-desc{ color: var(--text-secondary); }
+  .price-plan-desc{ font-size: 0.92rem; color: var(--ink-secondary); margin: -8px 0 0; }
+  .price-features{ display:flex; flex-direction:column; gap: 12px; margin: 4px 0; flex:1; }
+  .price-features li{ display:flex; align-items:flex-start; gap:10px; font-size: 0.92rem; }
+  .price-features svg{ width:18px; height:18px; color: var(--success); flex-shrink:0; margin-top:1px; }
+  @media (max-width: 900px){
+    .pricing-grid{ grid-template-columns: 1fr; }
+    .price-card.is-featured{ transform:none; order:-1; }
+    .price-card.is-featured:hover{ transform: translateY(-6px); }
+  }
+
+  /* ===================== Testimonials ===================== */
+  .testimonials-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+  .testimonial-card{
+    background:#fff; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+    padding: var(--space-4); box-shadow: var(--shadow-soft);
+    display:flex; flex-direction:column; gap: var(--space-3);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+  }
+  .testimonial-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-strong); }
+  .testimonial-stars{ color:#ffb400; letter-spacing:2px; font-size: 15px; }
+  .testimonial-quote{ font-size: 1.02rem; line-height:1.65; color: var(--ink); margin:0; }
+  .testimonial-person{ display:flex; align-items:center; gap:12px; margin-top:auto; }
+  .testimonial-avatar{
+    width:46px; height:46px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:700; font-size:15px;
+  }
+  .testimonial-name{ font-weight:700; font-size:0.95rem; }
+  .testimonial-role{ font-size: 0.85rem; color: var(--ink-secondary); }
+  @media (max-width: 900px){ .testimonials-grid{ grid-template-columns: 1fr; } }
+
+  /* ===================== Final CTA ===================== */
+  .final-cta{
+    background: var(--bg-dark); color: var(--text-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-5);
+    text-align:center; position:relative; overflow:hidden;
+    margin: 0 24px;
+  }
+  .final-cta::before{
+    content:""; position:absolute; inset:-40% -10% auto -10%; height:220px;
+    background: var(--accent-gradient); filter: blur(90px); opacity:0.45;
+  }
+  .final-cta h2{ font-size: clamp(1.7rem, 3vw, 2.3rem); margin:0 0 12px; letter-spacing:-0.02em; position:relative; }
+  .final-cta p{ color: var(--text-secondary); max-width: 46ch; margin: 0 auto var(--space-4); position:relative; }
+  .final-cta .hero-actions{ justify-content:center; position:relative; }
+
+  /* ===================== Footer ===================== */
+  footer{ background: var(--bg-dark); color: var(--text-secondary); padding: var(--space-6) 0 var(--space-4); margin-top: var(--space-7); }
+  .footer-top{ display:flex; flex-wrap:wrap; justify-content:space-between; gap: var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px solid var(--border-dark); }
+  .footer-brand{ display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:16px; }
+  .footer-links{ display:flex; gap: var(--space-5); flex-wrap:wrap; }
+  .footer-col h4{ font-size:13px; color:#fff; margin:0 0 12px; letter-spacing:0.02em; text-transform:uppercase; opacity:0.7; }
+  .footer-col ul{ display:flex; flex-direction:column; gap:10px; }
+  .footer-col a{ font-size: 14px; transition: color 0.2s ease; }
+  .footer-col a:hover{ color:#fff; }
+  .footer-bottom{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap: var(--space-3); padding-top: var(--space-4); font-size: 13px; }
+  .footer-social{ display:flex; gap: 10px; }
+  .footer-social a{
+    width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background: rgba(255,255,255,0.06); border:1px solid var(--border-dark);
+    transition: background 0.2s ease, transform 0.3s var(--ease-spring);
+  }
+  .footer-social a:hover{ background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+  .footer-social svg{ width:16px; height:16px; }
+
+  /* Skip link for accessibility */
+  .skip-link{
+    position:absolute; left:-9999px; top:auto; background:#fff; color:#111; padding:12px 18px;
+    border-radius: 0 0 10px 0; z-index: 1000; font-weight:600;
+  }
+  .skip-link:focus{ left:0; top:0; }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Saltar al contenido</a>
+
+<!-- ===================== Navbar ===================== -->
+<header class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="#" class="navbar-logo">
+      <span class="navbar-logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.5 8.5L21 9.5L16 14L17.5 21L12 17.5L6.5 21L8 14L3 9.5L9.5 8.5L12 2Z" fill="white"/></svg>
+      </span>
+      El Reseñador
+    </a>
+    <nav class="navbar-links" aria-label="Navegación principal">
+      <a href="#caracteristicas" class="navbar-link">Características</a>
+      <a href="#precios" class="navbar-link">Precios</a>
+      <a href="#testimonios" class="navbar-link">Testimonios</a>
+    </nav>
+    <div class="navbar-actions">
+      <a href="#precios" class="btn btn-primary btn-sm">Comenzar</a>
+      <button class="navbar-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMobilePanel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="container navbar-mobile-panel" id="navMobilePanel">
+    <a href="#caracteristicas" class="navbar-link">Características</a>
+    <a href="#precios" class="navbar-link">Precios</a>
+    <a href="#testimonios" class="navbar-link">Testimonios</a>
+    <a href="#precios" class="btn btn-primary btn-block" style="margin-top:8px;">Comenzar</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== Hero ===================== -->
+  <section class="hero">
+    <div class="hero-orb" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow reveal">✦ Gestión de reputación con IA</span>
+        <h1 class="reveal reveal-delay-1">Convierte a tus clientes felices en tu <span class="grad-text">mejor estrategia de marketing.</span></h1>
+        <p class="reveal reveal-delay-2">Automatiza la solicitud de reseñas en Google Maps, filtra el feedback negativo en privado y dispara tu reputación online en tiempo récord.</p>
+        <div class="hero-actions reveal reveal-delay-3">
+          <a href="#precios" class="btn btn-primary">Probar gratis 14 días</a>
+          <a href="#como-funciona" class="btn btn-ghost-dark">Ver demo</a>
+        </div>
+        <div class="hero-proof reveal reveal-delay-4">
+          <span class="avatars" aria-hidden="true">
+            <span>CC</span><span>CS</span><span>ML</span>
+          </span>
+          <span>+320 negocios locales ya confían en El Reseñador</span>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal reveal-delay-2">
+        <div class="phone" aria-hidden="true">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-app-title">Panel · El Reseñador</div>
+            <div class="phone-card">
+              <div class="row">
+                <div>
+                  <div class="phone-score">4.9</div>
+                  <div class="phone-stars">★★★★★</div>
+                </div>
+                <div style="text-align:right;">
+                  <div class="phone-sub">Google Maps</div>
+                  <div class="phone-sub" style="color:#34c759; font-weight:700;">▲ +0.9 este mes</div>
+                </div>
+              </div>
+              <div class="phone-bar-track"><div class="phone-bar-fill"></div></div>
+              <div class="phone-sub">96% de clientes satisfechos redirigidos</div>
+            </div>
+            <div class="phone-card" style="flex:1; display:flex; flex-direction:column; gap:10px;">
+              <div class="phone-feed-item">
+                <span class="phone-feed-avatar">ML</span>
+                <span class="phone-feed-text"><b>Mercado Local</b> recibió una reseña de 5★ hace 2 min</span>
+              </div>
+              <div class="phone-feed-item">
+                <span class="phone-feed-avatar">TE</span>
+                <span class="phone-feed-text"><b>Taller Express</b> filtró un feedback negativo en privado</span>
+              </div>
+              <div class="phone-feed-item">
+                <span class="phone-feed-avatar">BE</span>
+                <span class="phone-feed-text"><b>Boutique Élite</b> envió 48 invitaciones automáticas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-toast toast-top" aria-hidden="true">
+          <span class="toast-star">★</span> ¡Nueva reseña de 5 estrellas!
+        </div>
+        <div class="floating-toast toast-bottom" aria-hidden="true">
+          🤖 Sentimiento positivo detectado
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Trust bar ===================== -->
+  <section class="trustbar" style="padding-top: var(--space-4); padding-bottom: var(--space-4);">
+    <div class="container">
+      <p class="trustbar-label">Confían en nosotros</p>
+      <div class="trust-logos">
+        <span class="trust-logo"><span class="dot"></span>Cafetería Central</span>
+        <span class="trust-logo"><span class="dot"></span>Clínica Salud+</span>
+        <span class="trust-logo"><span class="dot"></span>Mercado Local</span>
+        <span class="trust-logo"><span class="dot"></span>Taller Express</span>
+        <span class="trust-logo"><span class="dot"></span>Boutique Élite</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Cómo funciona ===================== -->
+  <section id="como-funciona">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow reveal">Cómo funciona</span>
+        <h2 class="reveal reveal-delay-1">De la compra a las 5 estrellas, en tres pasos</h2>
+        <p class="reveal reveal-delay-2">Sin desarrolladores, sin fricción para tu equipo. Todo el proceso corre solo, en segundo plano.</p>
+      </div>
+      <div class="steps">
+        <div class="step-card reveal">
+          <div class="step-num">1</div>
+          <h3>Conecta tu negocio</h3>
+          <p>Integra tu cuenta de Google My Business en 1 clic y sincroniza tu ficha de reseñas al instante.</p>
+        </div>
+        <div class="step-card reveal reveal-delay-1">
+          <div class="step-num">2</div>
+          <h3>Envía invitaciones automáticas</h3>
+          <p>SMS y email post-servicio con disparo por IA, en el momento exacto en el que el cliente está más satisfecho.</p>
+        </div>
+        <div class="step-card reveal reveal-delay-2">
+          <div class="step-num">3</div>
+          <h3>Filtra y dispara reseñas</h3>
+          <p>Clientes felices → directos a Google Maps. Clientes insatisfechos → formulario privado para resolverlo offline.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Características ===================== -->
+  <section id="caracteristicas" class="section-cloud">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow reveal">Características</span>
+        <h2 class="reveal reveal-delay-1">Todo lo que necesitas para blindar tu reputación</h2>
+        <p class="reveal reveal-delay-2">Cuatro piezas que trabajan juntas para que cada cliente termine donde debe: en tus reseñas públicas o en tu bandeja privada.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.1-.45 2.1-1.17 2.83A4 4 0 0 1 16 12a4 4 0 0 1-2 3.46V18a2 2 0 0 1-2 2h0a2 2 0 0 1-2-2v-2.54A4 4 0 0 1 8 12a4 4 0 0 1 1.17-3.17A4 4 0 0 1 8 6a4 4 0 0 1 4-4Z"/><path d="M9 21h6"/></svg></div>
+          <h3>Análisis de sentimiento por IA</h3>
+          <p>Clasifica cada respuesta en segundos y decide, sin intervención humana, si el cliente va a Google Maps o a tu equipo de soporte.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3>Plantillas de mensajes personalizables</h3>
+          <p>Escribe el tono de tu marca una vez: SMS, email y recordatorios se adaptan automáticamente a cada tipo de negocio.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 4 3 5-7"/></svg></div>
+          <h3>Panel de control en tiempo real</h3>
+          <p>Monitoriza tasa de respuesta, reseñas generadas y feedback interno resuelto desde un único dashboard.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <h3>Integración nativa con Google Maps API</h3>
+          <p>Enlaza el perfil exacto de tu negocio y actualiza tu puntuación real sin plugins ni pasos manuales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Precios ===================== -->
+  <section id="precios">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow reveal">Precios</span>
+        <h2 class="reveal reveal-delay-1">Un plan para cada etapa de tu negocio</h2>
+        <p class="reveal reveal-delay-2">Cancela cuando quieras. Sin permanencia.</p>
+        <span class="pricing-note reveal reveal-delay-2">✎ Precios de ejemplo — totalmente editables</span>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Plan Básico -->
+        <div class="price-card reveal">
+          <span class="price-plan-name">Básico</span>
+          <p class="price-plan-desc">Para negocios que están empezando a pedir reseñas en serio.</p>
+          <div class="price-value"><span class="amount">$29</span><span class="period">/mes</span></div>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hasta 150 invitaciones/mes</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Envío por email</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1 ubicación de negocio</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Filtro de sentimiento por IA</li>
+          </ul>
+          <a href="#" class="btn btn-outline btn-block">Elegir Básico</a>
+        </div>
+
+        <!-- Plan Pro (destacado) -->
+        <div class="price-card is-featured reveal reveal-delay-1">
+          <span class="price-badge">Más popular</span>
+          <span class="price-plan-name">Pro</span>
+          <p class="price-plan-desc">Para negocios con varios servicios diarios y ganas de crecer rápido.</p>
+          <div class="price-value"><span class="amount">$79</span><span class="period">/mes</span></div>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Invitaciones ilimitadas</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Envío por SMS y email</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hasta 3 ubicaciones</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Panel en tiempo real + reportes</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Plantillas personalizables</li>
+          </ul>
+          <a href="#" class="btn btn-primary btn-block">Elegir Pro</a>
+        </div>
+
+        <!-- Plan Empresarial -->
+        <div class="price-card reveal reveal-delay-2">
+          <span class="price-plan-name">Empresarial</span>
+          <p class="price-plan-desc">Para cadenas y franquicias con múltiples sedes.</p>
+          <div class="price-value"><span class="amount">$199</span><span class="period">/mes</span></div>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Ubicaciones ilimitadas</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Integración API a medida</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Gestor de cuenta dedicado</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>SLA y soporte prioritario 24/7</li>
+          </ul>
+          <a href="#" class="btn btn-outline btn-block">Hablar con ventas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Testimonios ===================== -->
+  <section id="testimonios" class="section-cloud">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow reveal">Testimonios</span>
+        <h2 class="reveal reveal-delay-1">Negocios reales, resultados reales</h2>
+        <p class="reveal reveal-delay-2">Esto es lo que dicen los dueños que ya automatizaron su reputación con El Reseñador.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">“Pasamos de 4.0 a 4.9 estrellas en solo 2 meses. El filtro de sentimiento nos evitó al menos una docena de reseñas negativas públicas.”</p>
+          <div class="testimonial-person">
+            <span class="testimonial-avatar" style="background: linear-gradient(135deg,#ff9500,#ff2d55);">MR</span>
+            <div>
+              <div class="testimonial-name">Marta Ruiz</div>
+              <div class="testimonial-role">Dueña, Cafetería Central</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">“Configuramos la integración con Google Maps en una tarde. Ahora las reseñas llegan solas, sin perseguir a nadie por WhatsApp.”</p>
+          <div class="testimonial-person">
+            <span class="testimonial-avatar" style="background: linear-gradient(135deg,#007aff,#5856d6);">JG</span>
+            <div>
+              <div class="testimonial-name">Javier Gómez</div>
+              <div class="testimonial-role">Director, Clínica Salud+</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">“El panel en tiempo real es lo que más usamos. En una vista vemos qué sedes necesitan atención antes de que se convierta en un problema.”</p>
+          <div class="testimonial-person">
+            <span class="testimonial-avatar" style="background: linear-gradient(135deg,#34c759,#30b0c7);">LP</span>
+            <div>
+              <div class="testimonial-name">Laura Peña</div>
+              <div class="testimonial-role">Fundadora, Boutique Élite</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Final CTA ===================== -->
+  <section>
+    <div class="final-cta reveal">
+      <h2>Tu próxima reseña de 5 estrellas está a un clic</h2>
+      <p>Prueba El Reseñador gratis durante 14 días. Sin tarjeta, sin permanencia, sin letra pequeña.</p>
+      <div class="hero-actions">
+        <a href="#precios" class="btn btn-primary">Probar gratis 14 días</a>
+        <a href="#como-funciona" class="btn btn-ghost-dark">Ver demo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== Footer ===================== -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <span class="navbar-logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.5 8.5L21 9.5L16 14L17.5 21L12 17.5L6.5 21L8 14L3 9.5L9.5 8.5L12 2Z" fill="white"/></svg>
+          </span>
+          El Reseñador
+        </div>
+        <p style="max-width:32ch; font-size:14px; margin-top:12px;">Reputación online automatizada para negocios locales.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="#caracteristicas">Características</a></li>
+            <li><a href="#precios">Precios</a></li>
+            <li><a href="#testimonios">Testimonios</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Aviso de Privacidad</a></li>
+            <li><a href="#">Términos y Condiciones</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> El Reseñador. Todos los derechos reservados.</span>
+      <div class="footer-social">
+        <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7.1l-5.5-7.2L4.4 22H1.3l8.1-9.3L1 2h7.3l5 6.6L18.9 2Zm-1.2 18h1.9L7.4 4H5.4l12.3 16Z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H18.4v-5.7c0-1.36-.02-3.1-1.9-3.1-1.9 0-2.19 1.48-2.19 3v5.8H10V9Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  // Year
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  // Mobile nav toggle
+  var navbar = document.getElementById('navbar');
+  var toggle = document.getElementById('navToggle');
+  if (toggle && navbar) {
+    toggle.addEventListener('click', function () {
+      var isOpen = navbar.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    document.querySelectorAll('#navMobilePanel a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navbar.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // Reveal on scroll (Intersection Observer, GPU-friendly transform/opacity only)
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = document.querySelectorAll('.reveal');
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+  } else {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    revealEls.forEach(function (el) { observer.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
