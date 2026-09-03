@@ -1,0 +1,13 @@
+{
+  "name": "frontend-design-md",
+  "description": "Unified design skill: 60+ design systems, cinematic scroll animations, data visualization, and SVG creation.",
+  "skills": [
+    {
+      "name": "frontend-design-md",
+      "plugin": ".",
+      "description": "All-in-one: design systems, parallax sites, charts, data queries, SVG icons/logos"
+    }
+  ],
+  "repository": "https://github.com/cozy/frontend-design-md",
+  "license": "MIT"
+}

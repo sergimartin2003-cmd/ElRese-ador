@@ -1,0 +1,58 @@
+{
+  "name": "onemore-design",
+  "version": "2.3.0",
+  "description": "Apple HIG Design Intelligence — 6 specialized agents, 42 design topics, spring physics, video analysis. One command: /onemore",
+  "main": "scripts/search.py",
+  "bin": {
+    "onemore": "./bin/onemore.js"
+  },
+  "scripts": {
+    "test": "python3 -m pytest tests/ -v"
+  },
+  "keywords": [
+    "apple",
+    "hig",
+    "human-interface-guidelines",
+    "design-system",
+    "ui",
+    "ux",
+    "claude-code",
+    "cursor",
+    "windsurf",
+    "copilot",
+    "ai-agent",
+    "swiftui",
+    "react",
+    "react-native",
+    "flutter",
+    "tailwind"
+  ],
+  "author": "Juba Kitiashvili (https://github.com/JubaKitiashvili)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JubaKitiashvili/onemore.git"
+  },
+  "homepage": "https://jubakitiashvili.github.io/onemore/",
+  "bugs": {
+    "url": "https://github.com/JubaKitiashvili/onemore/issues"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "files": [
+    "bin/",
+    "scripts/*.py",
+    "data/*.svg",
+    "data/*.csv",
+    "data/**/*.csv",
+    "data/resources/icon-composer/*.svg",
+    "data/resources/icon-composer/*.json",
+    "data/resources/sign-in-with-apple/",
+    "agents/",
+    "docs/*-rules.md",
+    "SKILL.md",
+    "README.md",
+    "LICENSE"
+  ]
+}
