@@ -334,6 +334,12 @@
     font-size: 12.5px; font-weight: 700; padding: 6px 14px; border-radius: var(--radius-pill);
     margin-top: 8px;
   }
+  .pricing-block{ margin-top: var(--space-6); }
+  .pricing-block:first-of-type{ margin-top: 0; }
+  .pricing-block-head{ text-align:center; max-width: 640px; margin: 0 auto var(--space-4); }
+  .pricing-block-head h3{ font-size:1.3rem; margin:0 0 6px; letter-spacing:-0.01em; font-weight:700; }
+  .pricing-block-head p{ color: var(--ink-secondary); font-size:0.92rem; line-height:1.55; margin:0; }
+  .price-value.is-range .amount{ font-size: 1.85rem; }
   .pricing-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); align-items:stretch; }
   .price-card{
     background:#fff; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
@@ -581,53 +587,113 @@
       <div class="section-head">
         <span class="eyebrow reveal">Precios</span>
         <h2 class="reveal reveal-delay-1">Un plan para cada etapa de tu negocio</h2>
-        <p class="reveal reveal-delay-2">Cancela cuando quieras. Sin permanencia.</p>
-        <span class="pricing-note reveal reveal-delay-2">✎ Precios de ejemplo — totalmente editables</span>
+        <p class="reveal reveal-delay-2">Elige una campaña puntual o gestión continuada. Cancela cuando quieras.</p>
+        <span class="pricing-note reveal reveal-delay-2">✎ Precios de ejemplo. Personalizamos según tu negocio.</span>
       </div>
 
-      <div class="pricing-grid">
-        <!-- Plan Básico -->
-        <div class="price-card reveal">
-          <span class="price-plan-name">Básico</span>
-          <p class="price-plan-desc">Para negocios que están empezando a pedir reseñas en serio.</p>
-          <div class="price-value"><span class="amount">$29</span><span class="period">/mes</span></div>
-          <ul class="price-features">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hasta 150 invitaciones/mes</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Envío por email</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1 ubicación de negocio</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Filtro de sentimiento por IA</li>
-          </ul>
-          <a href="#" class="btn btn-outline btn-block">Elegir Básico</a>
+      <!-- Bloque 1: Paquetes de campaña (pago único) -->
+      <div class="pricing-block">
+        <div class="pricing-block-head">
+          <h3 class="reveal">Paquetes de campaña — pago único</h3>
+          <p class="reveal">Incluyen el envío automatizado de encuestas a clientes reales verificados, plantillas de mensajes personalizadas y gestión del feedback.</p>
         </div>
+        <div class="pricing-grid">
+          <!-- Bronce -->
+          <div class="price-card reveal">
+            <span class="price-plan-name">🥉 Bronce</span>
+            <p class="price-plan-desc">Campaña exprés para 10 clientes reales.</p>
+            <div class="price-value is-range"><span class="amount">8€–10€</span><span class="period">por cliente contactado</span></div>
+            <ul class="price-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Campaña para 10 clientes reales</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Plantilla de mensaje genérica</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Informe básico de satisfacción</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Entrega en 24-48h</li>
+            </ul>
+            <a href="#" class="btn btn-outline btn-block">Elegir Bronce</a>
+          </div>
 
-        <!-- Plan Pro (destacado) -->
-        <div class="price-card is-featured reveal reveal-delay-1">
-          <span class="price-badge">Más popular</span>
-          <span class="price-plan-name">Pro</span>
-          <p class="price-plan-desc">Para negocios con varios servicios diarios y ganas de crecer rápido.</p>
-          <div class="price-value"><span class="amount">$79</span><span class="period">/mes</span></div>
-          <ul class="price-features">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Invitaciones ilimitadas</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Envío por SMS y email</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hasta 3 ubicaciones</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Panel en tiempo real + reportes</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Plantillas personalizables</li>
-          </ul>
-          <a href="#" class="btn btn-primary btn-block">Elegir Pro</a>
+          <!-- Plata (recomendado) -->
+          <div class="price-card is-featured reveal reveal-delay-1">
+            <span class="price-badge">Recomendado</span>
+            <span class="price-plan-name">🥈 Plata</span>
+            <p class="price-plan-desc">Campaña estándar para 20 clientes reales.</p>
+            <div class="price-value is-range"><span class="amount">15€–20€</span><span class="period">por cliente contactado</span></div>
+            <ul class="price-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Campaña para 20 clientes reales</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Plantilla personalizada + 1 encuesta de seguimiento</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Análisis de sentimiento</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Entrega en 48-72h</li>
+            </ul>
+            <a href="#" class="btn btn-primary btn-block">Elegir Plata</a>
+          </div>
+
+          <!-- Oro (premium) -->
+          <div class="price-card reveal reveal-delay-2">
+            <span class="price-plan-name">🥇 Oro <span style="font-weight:500; font-size:0.75rem; color:var(--ink-secondary);">Premium</span></span>
+            <p class="price-plan-desc">Campaña completa para 50 clientes reales.</p>
+            <div class="price-value is-range"><span class="amount">30€–45€</span><span class="period">por cliente contactado</span></div>
+            <ul class="price-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Campaña para 50 clientes reales</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mensajes hiperpersonalizados + 2 encuestas de seguimiento</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Panel de control en tiempo real</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Asesoría estratégica</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Entrega en 3-5 días</li>
+            </ul>
+            <a href="#" class="btn btn-outline btn-block">Elegir Oro</a>
+          </div>
         </div>
+      </div>
 
-        <!-- Plan Empresarial -->
-        <div class="price-card reveal reveal-delay-2">
-          <span class="price-plan-name">Empresarial</span>
-          <p class="price-plan-desc">Para cadenas y franquicias con múltiples sedes.</p>
-          <div class="price-value"><span class="amount">$199</span><span class="period">/mes</span></div>
-          <ul class="price-features">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Ubicaciones ilimitadas</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Integración API a medida</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Gestor de cuenta dedicado</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>SLA y soporte prioritario 24/7</li>
-          </ul>
-          <a href="#" class="btn btn-outline btn-block">Hablar con ventas</a>
+      <!-- Bloque 2: Suscripciones mensuales -->
+      <div class="pricing-block">
+        <div class="pricing-block-head">
+          <h3 class="reveal">Suscripciones mensuales — gestión continuada</h3>
+          <p class="reveal">Para negocios que quieren reputación en piloto automático, mes a mes.</p>
+        </div>
+        <div class="pricing-grid">
+          <!-- Starter -->
+          <div class="price-card reveal">
+            <span class="price-plan-name">📦 Starter</span>
+            <p class="price-plan-desc">Gestión de reputación básica.</p>
+            <div class="price-value"><span class="amount">75€</span><span class="period">/mes</span></div>
+            <ul class="price-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>20 clientes reales contactados al mes (5/semana)</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Panel de control</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Informe mensual</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte por email</li>
+            </ul>
+            <a href="#" class="btn btn-outline btn-block">Elegir Starter</a>
+          </div>
+
+          <!-- Growth -->
+          <div class="price-card is-featured reveal reveal-delay-1">
+            <span class="price-badge">Más popular</span>
+            <span class="price-plan-name">🚀 Growth</span>
+            <p class="price-plan-desc">Crecimiento agresivo.</p>
+            <div class="price-value"><span class="amount">199€</span><span class="period">/mes</span></div>
+            <ul class="price-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>60 clientes reales contactados al mes (15/semana)</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Segmentación avanzada</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte prioritario</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Optimización continua de mensajes</li>
+            </ul>
+            <a href="#" class="btn btn-primary btn-block">Elegir Growth</a>
+          </div>
+
+          <!-- Domination -->
+          <div class="price-card reveal reveal-delay-2">
+            <span class="price-plan-name">👑 Domination</span>
+            <p class="price-plan-desc">Dominio total del mercado.</p>
+            <div class="price-value is-range"><span class="amount">450€–600€</span><span class="period">/mes</span></div>
+            <ul class="price-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>120 clientes reales contactados al mes (30/semana)</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Estrategia omnicanal (SMS + Email + WhatsApp)</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Account Manager dedicado</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Informes ejecutivos semanales</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte 24/7</li>
+            </ul>
+            <a href="#" class="btn btn-outline btn-block">Hablar con ventas</a>
+          </div>
         </div>
       </div>
     </div>
