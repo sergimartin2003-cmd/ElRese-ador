@@ -327,29 +327,6 @@
   .step-arrow{ display:none; }
   @media (max-width: 900px){ .steps{ grid-template-columns: 1fr; } }
 
-  /* ===================== Features grid 2x2 ===================== */
-  .features-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
-  .feature-card{
-    position:relative; overflow:hidden;
-    background: rgba(255,255,255,0.55);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
-  }
-  .feature-card:hover{ transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-strong); }
-  .feature-icon{
-    width: 52px; height:52px; border-radius: 16px; margin-bottom: var(--space-3);
-    background: var(--accent-gradient); display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 10px 26px -10px rgba(88,86,214,0.55);
-  }
-  .feature-icon svg{ width:26px; height:26px; color:#fff; }
-  .feature-card h3{ font-size: 1.2rem; margin: 0 0 8px; letter-spacing: -0.01em; }
-  .feature-card p{ color: var(--ink-secondary); font-size: 0.96rem; line-height: 1.65; margin:0; }
-  @media (max-width: 760px){ .features-grid{ grid-template-columns: 1fr; } }
-
   /* ===================== Pricing ===================== */
   .pricing-note{
     display:inline-flex; align-items:center; gap:6px;
@@ -473,7 +450,7 @@
       El Reseñador
     </a>
     <nav class="navbar-links" aria-label="Navegación principal">
-      <a href="#caracteristicas" class="navbar-link">Características</a>
+      <a href="#como-funciona" class="navbar-link">Cómo funciona</a>
       <a href="#precios" class="navbar-link">Precios</a>
       <a href="#testimonios" class="navbar-link">Testimonios</a>
     </nav>
@@ -485,7 +462,7 @@
     </div>
   </div>
   <div class="container navbar-mobile-panel" id="navMobilePanel">
-    <a href="#caracteristicas" class="navbar-link">Características</a>
+    <a href="#como-funciona" class="navbar-link">Cómo funciona</a>
     <a href="#precios" class="navbar-link">Precios</a>
     <a href="#testimonios" class="navbar-link">Testimonios</a>
     <a href="#precios" class="btn btn-primary btn-block" style="margin-top:8px;">Comenzar</a>
@@ -499,16 +476,12 @@
     <div class="hero-orb" aria-hidden="true"></div>
     <div class="container hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow reveal">✦ Gestión de reputación con IA</span>
-        <h1 class="reveal reveal-delay-1">Convierte a tus clientes felices en tu <span class="grad-text">mejor estrategia de marketing.</span></h1>
-        <p class="reveal reveal-delay-2">Automatiza la solicitud de reseñas en Google Maps, filtra el feedback negativo en privado y dispara tu reputación online en tiempo récord.</p>
-        <div class="hero-actions reveal reveal-delay-3">
-          <a href="#precios" class="btn btn-primary">Probar gratis 14 días</a>
-          <a href="#como-funciona" class="btn btn-ghost-dark">Ver demo</a>
-        </div>
-        <div class="hero-proof reveal reveal-delay-4">
+        <span class="eyebrow reveal">✦ Gestión de reputación y captación de clientes</span>
+        <h1 class="reveal reveal-delay-1">Consigue las mejores reseñas. <span class="grad-text">Supera ampliamente a la competencia.</span></h1>
+        <p class="reveal reveal-delay-2">Consigue reseñas de Google Maps para tu negocio de la manera más rápida y sencilla posible.</p>
+        <div class="hero-proof reveal reveal-delay-3">
           <span class="avatars" aria-hidden="true">
-            <span>CC</span><span>CS</span><span>ML</span>
+            <span>PE</span><span>CD</span><span>TM</span>
           </span>
           <span>+320 negocios locales ya confían en El Reseñador</span>
         </div>
@@ -535,16 +508,16 @@
             </div>
             <div class="phone-card" style="flex:1; display:flex; flex-direction:column; gap:10px;">
               <div class="phone-feed-item">
-                <span class="phone-feed-avatar">ML</span>
-                <span class="phone-feed-text"><b>Mercado Local</b> recibió una reseña de 5★ hace 2 min</span>
+                <span class="phone-feed-avatar">PE</span>
+                <span class="phone-feed-text"><b>Panadería La Esquinita</b> recibió una reseña de 5★ hace 2 min</span>
               </div>
               <div class="phone-feed-item">
-                <span class="phone-feed-avatar">TE</span>
-                <span class="phone-feed-text"><b>Taller Express</b> filtró un feedback negativo en privado</span>
+                <span class="phone-feed-avatar">TR</span>
+                <span class="phone-feed-text"><b>Taller Mecánico El Rápido</b> filtró un feedback negativo en privado</span>
               </div>
               <div class="phone-feed-item">
-                <span class="phone-feed-avatar">BE</span>
-                <span class="phone-feed-text"><b>Boutique Élite</b> envió 48 invitaciones automáticas</span>
+                <span class="phone-feed-avatar">EN</span>
+                <span class="phone-feed-text"><b>Estudio de Pilates Nova</b> captó un cliente nuevo por campaña</span>
               </div>
             </div>
           </div>
@@ -565,11 +538,11 @@
     <div class="container">
       <p class="trustbar-label">Confían en nosotros</p>
       <div class="trust-logos">
-        <span class="trust-logo"><span class="dot"></span>Cafetería Central</span>
-        <span class="trust-logo"><span class="dot"></span>Clínica Salud+</span>
-        <span class="trust-logo"><span class="dot"></span>Mercado Local</span>
-        <span class="trust-logo"><span class="dot"></span>Taller Express</span>
-        <span class="trust-logo"><span class="dot"></span>Boutique Élite</span>
+        <span class="trust-logo"><span class="dot"></span>Panadería La Esquinita</span>
+        <span class="trust-logo"><span class="dot"></span>Clínica Dental Sonrisa Perfecta</span>
+        <span class="trust-logo"><span class="dot"></span>Taller Mecánico El Rápido</span>
+        <span class="trust-logo"><span class="dot"></span>Tienda de Mascotas Huellitas</span>
+        <span class="trust-logo"><span class="dot"></span>Estudio de Pilates Nova</span>
       </div>
     </div>
   </section>
@@ -579,57 +552,24 @@
     <div class="container">
       <div class="section-head">
         <span class="eyebrow reveal">Cómo funciona</span>
-        <h2 class="reveal reveal-delay-1">De la compra a las 5 estrellas, en tres pasos</h2>
-        <p class="reveal reveal-delay-2">Sin desarrolladores, sin fricción para tu equipo. Todo el proceso corre solo, en segundo plano.</p>
+        <h2 class="reveal reveal-delay-1">De tu negocio a las 5 estrellas, en tres pasos</h2>
+        <p class="reveal reveal-delay-2">Sin fricción para tu equipo. Nosotros nos encargamos de la estrategia, la campaña y el filtro de reseñas.</p>
       </div>
       <div class="steps">
         <div class="step-card reveal">
           <div class="step-num">1</div>
-          <h3>Conecta tu negocio</h3>
-          <p>Integra tu cuenta de Google My Business en 1 clic y sincroniza tu ficha de reseñas al instante.</p>
+          <h3>Contacta con nosotros</h3>
+          <p>Ponte en contacto con nuestro equipo y cuéntanos las necesidades específicas de tu negocio.</p>
         </div>
         <div class="step-card reveal reveal-delay-1">
           <div class="step-num">2</div>
-          <h3>Envía invitaciones automáticas</h3>
-          <p>SMS y email post-servicio con disparo por IA, en el momento exacto en el que el cliente está más satisfecho.</p>
+          <h3>Ajustamos precios y reseñas</h3>
+          <p>Creamos una estrategia personalizada de captación de reseñas ajustada a tu presupuesto y objetivos.</p>
         </div>
         <div class="step-card reveal reveal-delay-2">
           <div class="step-num">3</div>
-          <h3>Filtra y dispara reseñas</h3>
-          <p>Clientes felices → directos a Google Maps. Clientes insatisfechos → formulario privado para resolverlo offline.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== Características ===================== -->
-  <section id="caracteristicas" class="section-cloud">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow reveal">Características</span>
-        <h2 class="reveal reveal-delay-1">Todo lo que necesitas para blindar tu reputación</h2>
-        <p class="reveal reveal-delay-2">Cuatro piezas que trabajan juntas para que cada cliente termine donde debe: en tus reseñas públicas o en tu bandeja privada.</p>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card reveal">
-          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.1-.45 2.1-1.17 2.83A4 4 0 0 1 16 12a4 4 0 0 1-2 3.46V18a2 2 0 0 1-2 2h0a2 2 0 0 1-2-2v-2.54A4 4 0 0 1 8 12a4 4 0 0 1 1.17-3.17A4 4 0 0 1 8 6a4 4 0 0 1 4-4Z"/><path d="M9 21h6"/></svg></div>
-          <h3>Análisis de sentimiento por IA</h3>
-          <p>Clasifica cada respuesta en segundos y decide, sin intervención humana, si el cliente va a Google Maps o a tu equipo de soporte.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          <h3>Plantillas de mensajes personalizables</h3>
-          <p>Escribe el tono de tu marca una vez: SMS, email y recordatorios se adaptan automáticamente a cada tipo de negocio.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 4 3 5-7"/></svg></div>
-          <h3>Panel de control en tiempo real</h3>
-          <p>Monitoriza tasa de respuesta, reseñas generadas y feedback interno resuelto desde un único dashboard.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <h3>Integración nativa con Google Maps API</h3>
-          <p>Enlaza el perfil exacto de tu negocio y actualiza tu puntuación real sin plugins ni pasos manuales.</p>
+          <h3>Espera y recibe reseñas personalizadas para tu negocio</h3>
+          <p>Ejecutamos campañas de atracción de clientes reales y gestionamos el embudo, asegurando que solo el feedback positivo llegue a Google Maps mientras resolvemos las quejas en privado.</p>
         </div>
       </div>
     </div>
@@ -770,7 +710,7 @@
         <div class="footer-col">
           <h4>Producto</h4>
           <ul>
-            <li><a href="#caracteristicas">Características</a></li>
+            <li><a href="#como-funciona">Cómo funciona</a></li>
             <li><a href="#precios">Precios</a></li>
             <li><a href="#testimonios">Testimonios</a></li>
           </ul>
